@@ -1,14 +1,31 @@
+'''
+This is a tool to convert rst file to xml file'.
+Srt file is converted to utf-8 encoding, sorted by start time, and converted to xml format.
+How to use:
+$ python srt_to_xml.py filename
+'''
 import re
 from xml.etree import ElementTree as ET
 import sys
 import os.path
 from collections import OrderedDict
 from StringIO import StringIO
+import os
 
 
 def read_srt(input_file_object):
-    # variable i is the line number of in one dialogue.
+    '''
+    Convert rst file object to a list of dialogues.
+    A dialogue structure:  {'id': 1, 'start_time': 275, 'end_time': 600, 'subtitle': [line1, line2, ...]}
+    start_time and end_time are in miniseconds.
+    Parameter:
+        input_file_object: file object type.
+    Return:
+        type: list.
+        value: a list of dialogue.
+    '''
     dialogue_list = []
+    # variable i is the line number of in one dialogue.
     i = 0
     lines = input_file_object.readlines()
     subtitle = []
@@ -16,8 +33,6 @@ def read_srt(input_file_object):
     for line in lines:
         i += 1
         line = line.strip()
-        # a dialogue structure: {'id': 1, 'start_time': 275, 'end_time': 600, 'subtitle': [line1, line2, ...]}.
-        # start_time and end_time are in miniseconds.
         # check blank line.
         if line:
             if i == 1:
@@ -56,7 +71,8 @@ def generate_xml(dialogue_list):
         st.text = unicode(dialogue['start_time'])
         et.text = unicode(dialogue['end_time'])
         # join subtitles with newline.
-        sub.text = unicode('&#x0A;'.join(dialogue['subtitle']), encoding='utf-8')
+        sub.text = unicode('\n'.join(dialogue['subtitle']), encoding='utf-8')
+        # sub.text = unicode('&#x000A;'.join(dialogue['subtitle']), encoding='utf-8')
     xml_tree = ET.ElementTree(xml)
     return xml_tree
 
