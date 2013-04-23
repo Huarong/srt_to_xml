@@ -71,8 +71,7 @@ def generate_xml(dialogue_list):
         st.text = unicode(dialogue['start_time'])
         et.text = unicode(dialogue['end_time'])
         # join subtitles with newline.
-        sub.text = unicode('\n'.join(dialogue['subtitle']), encoding='utf-8')
-        # sub.text = unicode('&#x000A;'.join(dialogue['subtitle']), encoding='utf-8')
+        sub.text = unicode(os.linesep.join(dialogue['subtitle']), encoding='utf-8')
     xml_tree = ET.ElementTree(xml)
     return xml_tree
 
