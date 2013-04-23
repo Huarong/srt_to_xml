@@ -30,7 +30,7 @@ def read_srt(input_file_object):
     i = 0
     lines = input_file_object.readlines()
     subtitle = []
-    dialogue = OrderedDict([('id', 0), ('start_time', 0), ('end_time', 0), ('subtitle', [])])
+    dialogue = OrderedDict([('id', -1), ('start_time', 0), ('end_time', 0), ('subtitle', [])])
     for line in lines:
         i += 1
         line = line.strip()
@@ -49,13 +49,13 @@ def read_srt(input_file_object):
                 subtitle.append(line)
         else:
             dialogue['subtitle'] = subtitle
-            if dialogue['id'] != 0:
+            if dialogue['id'] != -1:
                 dialogue_list.append(dialogue)
             subtitle = []
-            dialogue = OrderedDict([('id', 0), ('start_time', 0), ('end_time', 0), ('subtitle', [])])
+            dialogue = OrderedDict([('id', -1), ('start_time', 0), ('end_time', 0), ('subtitle', [])])
             i = 0
     dialogue['subtitle'] = subtitle
-    if dialogue['id'] != 0:
+    if dialogue['id'] != -1:
         dialogue_list.append(dialogue)
     # sort all dialogues by start time.
     dialogue_list.sort(key=lambda d: d['start_time'])
