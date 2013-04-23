@@ -80,7 +80,6 @@ def generate_xml(dialogue_list):
         # join subtitles with newline.
         sub.text = unicode(os.linesep.join(dialogue['subtitle']), encoding='utf-8')
     xml_tree = ET.ElementTree(xml)
-    print type(xml_tree)
     return xml_tree
 
 
