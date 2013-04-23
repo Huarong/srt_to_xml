@@ -1,6 +1,7 @@
 '''
 This is a tool to convert rst file to xml file'.
 Srt file is converted to utf-8 encoding, sorted by start time, and converted to xml format.
+This code use the module zh_to_utf8.
 How to use:
 $ python srt_to_xml.py filename
 '''
@@ -62,6 +63,12 @@ def read_srt(input_file_object):
 
 
 def generate_xml(dialogue_list):
+    '''
+    Generate xml tree from a list of dialogues.
+    Parameter:
+        dialogue_list: list type, a list of dialogues.
+    Return: <class 'xml.etree.ElementTree.ElementTree'>
+    '''
     xml = ET.Element('xml')
     for dialogue in dialogue_list:
         dia = ET.SubElement(xml, 'dia')
@@ -73,6 +80,7 @@ def generate_xml(dialogue_list):
         # join subtitles with newline.
         sub.text = unicode(os.linesep.join(dialogue['subtitle']), encoding='utf-8')
     xml_tree = ET.ElementTree(xml)
+    print type(xml_tree)
     return xml_tree
 
 
